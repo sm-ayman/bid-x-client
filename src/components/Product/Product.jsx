@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router";
 
 const Product = ({ product }) => {
   return (
@@ -38,9 +39,11 @@ const Product = ({ product }) => {
 
       {/* - buttons */}
       <div className="flex justify-between items-center">
-        <button className="btn btn-sm bg-indigo-600 text-white hover:bg-indigo-700 transition">
+        <Link
+         to={`/products/${product._id}`}
+         className="btn btn-sm bg-indigo-600 text-white hover:bg-indigo-700 transition">
           View Details
-        </button>
+        </Link>
         <span className="text-xs text-gray-500">{product.condition}</span>
       </div>
     </div>

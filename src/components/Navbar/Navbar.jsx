@@ -35,7 +35,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          to="/all-products"
+          to="/products" end
           className={({ isActive }) =>
             `font-medium px-3 py-2 rounded-md hover:text-indigo-600 transition ${
               isActive
