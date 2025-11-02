@@ -3,6 +3,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 
 const Register = () => {
   const { googleSignIn } = use(AuthContext);
+
   const handleGoogleSignIn = () => {
     googleSignIn()
       .then((result) => {
@@ -14,7 +15,7 @@ const Register = () => {
           image: result.user.photoURL,
         };
 
-        // create user in the DB
+        // create-user-in-db
         fetch("http://localhost:5000/users", {
           method: "POST",
           headers: {
@@ -24,40 +25,75 @@ const Register = () => {
         })
           .then((res) => res.json())
           .then((data) => {
-            console.log("Data After Login", data);
+            console.log("data-after-login", data);
           });
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  return (
-    <div className="hero mt-10 bg-base-20">
-      <div className="hero-content flex-col lg:flex-row-reverse">
-        <div className="text-center lg:text-left">
-          <h1 className="text-5xl font-bold">Register now!</h1>
-        </div>
-        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-          <div className="card-body">
-            <fieldset className="fieldset">
-              <label className="label">Email</label>
-              <input type="email" className="input" placeholder="Email" />
-              <label className="label">Password</label>
-              <input type="password" className="input" placeholder="Password" />
 
+  return (
+    <div className="hero min-h-screen bg-base-200">
+      <div className="hero-content flex-col lg:flex-row-reverse gap-10">
+        {/* heading-section */}
+        <div className="text-center lg:text-left">
+          <h1 className="text-5xl font-bold text-indigo-600 mb-4">
+            Register now!
+          </h1>
+          <p className="text-gray-600">
+            Create an account or continue with Google for faster signup.
+          </p>
+        </div>
+
+        {/* card-section */}
+        <div className="card bg-white w-full max-w-sm shadow-2xl rounded-xl">
+          <div className="card-body">
+            <fieldset className="fieldset space-y-4">
+              {/* email-field */}
               <div>
-                <a className="link link-hover">Forgot password?</a>
+                <label className="label font-medium">Email</label>
+                <input
+                  type="email"
+                  className="input input-bordered w-full"
+                  placeholder="Email"
+                />
               </div>
-              <button className="btn btn-neutral mt-4">Login</button>
-              {/* Google */}
+
+              {/* password-field */}
+              <div>
+                <label className="label font-medium">Password</label>
+                <input
+                  type="password"
+                  className="input input-bordered w-full"
+                  placeholder="Password"
+                />
+              </div>
+
+              {/* forgot-password-link */}
+              <div className="text-right">
+                <a className="link link-hover text-sm text-indigo-600">
+                  Forgot password?
+                </a>
+              </div>
+
+              {/* register-button */}
+              <button className="btn w-full bg-indigo-600 text-white hover:bg-indigo-700 transition mt-2">
+                Register
+              </button>
+
+              {/* divider-or */}
+              <div className="divider">OR</div>
+
+              {/* google-login-button */}
               <button
                 onClick={handleGoogleSignIn}
-                className="btn bg-white text-black border-[#e5e5e5]"
+                className="btn w-full bg-white text-gray-800 border border-gray-300 hover:bg-gray-100 flex items-center justify-center gap-2"
               >
                 <svg
                   aria-label="Google logo"
-                  width="16"
-                  height="16"
+                  width="20"
+                  height="20"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 512 512"
                 >
@@ -81,7 +117,7 @@ const Register = () => {
                     ></path>
                   </g>
                 </svg>
-                Login with Google
+                Continue with Google
               </button>
             </fieldset>
           </div>

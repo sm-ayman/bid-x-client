@@ -1,14 +1,19 @@
 import React, { use } from "react";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import { AuthContext } from "../../contexts/AuthContext";
 import { FaGavel } from "react-icons/fa";
+import userPhoto from "/assets/thumb-profile.png";
 
 const Navbar = () => {
   const { user, signOutUser } = use(AuthContext);
+  const navigate = useNavigate();
 
   const handleSignOut = () => {
     signOutUser()
-      .then(() => alert("Signed Out!"))
+      .then(() => {
+        alert("Signed Out!");
+        navigate("/");
+      })
       .catch((err) => console.log(err));
   };
 
@@ -19,7 +24,9 @@ const Navbar = () => {
           to="/"
           className={({ isActive }) =>
             `font-medium px-3 py-2 rounded-md hover:text-indigo-600 transition ${
-              isActive ? "underline underline-offset-4 text-indigo-600" : "text-base-content"
+              isActive
+                ? "underline underline-offset-4 text-indigo-600"
+                : "text-base-content"
             }`
           }
         >
@@ -31,7 +38,9 @@ const Navbar = () => {
           to="/all-products"
           className={({ isActive }) =>
             `font-medium px-3 py-2 rounded-md hover:text-indigo-600 transition ${
-              isActive ? "underline underline-offset-4 text-indigo-600" : "text-base-content"
+              isActive
+                ? "underline underline-offset-4 text-indigo-600"
+                : "text-base-content"
             }`
           }
         >
@@ -45,7 +54,9 @@ const Navbar = () => {
               to="/my-products"
               className={({ isActive }) =>
                 `font-medium px-3 py-2 rounded-md hover:text-indigo-600 transition ${
-                  isActive ? "underline underline-offset-4 text-indigo-600" : "text-base-content"
+                  isActive
+                    ? "underline underline-offset-4 text-indigo-600"
+                    : "text-base-content"
                 }`
               }
             >
@@ -57,7 +68,9 @@ const Navbar = () => {
               to="/my-bids"
               className={({ isActive }) =>
                 `font-medium px-3 py-2 rounded-md hover:text-indigo-600 transition ${
-                  isActive ? "underline underline-offset-4 text-indigo-600" : "text-base-content"
+                  isActive
+                    ? "underline underline-offset-4 text-indigo-600"
+                    : "text-base-content"
                 }`
               }
             >
@@ -120,22 +133,20 @@ const Navbar = () => {
             <Link to="/login" className="btn btn-outline btn-indigo">
               Login
             </Link>
-            <Link to="/register" className="btn btn-indigo text-white">
+            <Link to="/register" className="btn bg-indigo-700 text-white">
               Register
             </Link>
           </div>
         ) : (
           <div className="flex items-center gap-2">
-            {user.photoURL && (
-              <img
-                src={user.photoURL}
-                alt="User Avatar"
-                className="w-10 h-10 rounded-full border-2 border-indigo-600"
-              />
-            )}
+            <img
+              src={user?.photoURL || userPhoto}
+              alt="User Avatar"
+              className="w-10 h-10 rounded-full border-2 border-indigo-600"
+            />
             <button
               onClick={handleSignOut}
-              className="btn btn-indigo text-white"
+              className="btn btn-error text-white"
             >
               Sign Out
             </button>
