@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
-const ProductBids = ({ product }) => {
-  const [bids, setBids] = useState([]);
+const ProductBids = ({ product, bids, setBids }) => {
   const productId = product._id;
   console.log(productId);
 
@@ -10,7 +9,11 @@ const ProductBids = ({ product }) => {
       .then((res) => res.json())
       .then((data) => {
         console.log("Bids for this product", data);
-        setBids(data);
+        // Sort bids descending by bid_price
+        const sortedBids = data.sort(
+          (a, b) => Number(b.bid_price) - Number(a.bid_price)
+        );
+        setBids(sortedBids);
       });
   }, [productId]);
 

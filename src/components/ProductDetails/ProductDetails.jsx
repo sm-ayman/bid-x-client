@@ -1,4 +1,4 @@
-import React, { use, useRef } from "react";
+import React, { use, useRef, useState } from "react";
 import { useLoaderData, useNavigate } from "react-router";
 import { AuthContext } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
@@ -9,6 +9,7 @@ const ProductDetails = () => {
   const navigate = useNavigate();
   const bidModalRef = useRef(null);
   const { user } = use(AuthContext);
+  const [bids, setBids] = useState([]);
 
   const {
     image,
@@ -66,6 +67,11 @@ const ProductDetails = () => {
             showConfirmButton: false,
             timer: 2000,
           });
+          // add the new bid to state
+          newBid._id = data.insertedId;
+          const newBids = [...bids, newBid];
+          newBids.sort((a, b) => Number(b.bid_price) - Number(a.bid_price));
+          setBids(newBids);
         }
         // console.log(data, "After placing a bid");
       });
@@ -259,7 +265,11 @@ const ProductDetails = () => {
       </section>
       {/* bids-for-this-product */}
       <section>
-        <ProductBids product={product}></ProductBids>
+        <ProductBids
+          product={product}
+          bids={bids}
+          setBids={setBids}
+        ></ProductBids>
       </section>
     </div>
   );
