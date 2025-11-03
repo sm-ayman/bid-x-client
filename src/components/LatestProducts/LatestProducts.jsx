@@ -4,7 +4,7 @@ import Product from "../Product/Product";
 const LatestProducts = ({ latestProductsPromise }) => {
   // - get-products-data
   const products = use(latestProductsPromise);
-  console.log(products);
+  //   console.log(products);
 
   return (
     <section className="py-16 px-4 md:px-8 lg:px-12">
