@@ -1,5 +1,6 @@
 import React, { use, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
+import Swal from "sweetalert2";
 
 const MyBids = () => {
   const { user } = use(AuthContext);
@@ -18,6 +19,46 @@ const MyBids = () => {
         });
     }
   }, [user?.email]);
+
+  const handleRemoveBid = (_id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:5000/bids/${_id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("after delete", data);
+            if (data.deletedCount > 0) {
+              setBids((prevBids) => prevBids.filter((bid) => bid._id !== _id));
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your Bid has been deleted.",
+                icon: "success",
+                timer: 1500,
+                showConfirmButton: false,
+              });
+            }
+          })
+          .catch((err) => {
+            console.error("Error deleting bid:", err);
+            Swal.fire({
+              title: "Error!",
+              text: "Something went wrong while deleting.",
+              icon: "error",
+            });
+          });
+      }
+    });
+  };
 
   return (
     <div className="max-w-6xl mx-auto px-5 py-10">
@@ -65,6 +106,14 @@ const MyBids = () => {
                     >
                       {bid.status}
                     </span>
+                  </td>
+                  <td className="px-4 py-2">
+                    <button
+                      onClick={() => handleRemoveBid(bid._id)}
+                      className="cursor-pointer px-3 py-1 bg-red-100 text-red-600 rounded-md text-sm hover:bg-red-200 transition"
+                    >
+                      Remove
+                    </button>
                   </td>
                 </tr>
               ))}
